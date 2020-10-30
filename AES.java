@@ -5,7 +5,7 @@ public class AES{
 	public AES(String text,String key){
 		this.key=new Keys(key);
 		//this.key.print();
-        this.Sbox=new Sbox1(key);
+        this.Sbox1=new Sbox1(key);
 		this.text=new Polynomial[4][4];
 		this.setText(text);
 		
@@ -46,7 +46,7 @@ public class AES{
 				int row=(this.text[i][j].get()&(15<<4))>>4;
 				int col=this.text[i][j].get()&15;
 
-				this.text[i][j].set(Sbox.getSbox(row,col));
+				this.text[i][j].set(Sbox1.getSbox(row,col));
 			}
 	}
 
@@ -59,7 +59,7 @@ public class AES{
 				int row=(this.text[i][j].get()&(15<<4))>>4;
 				int col=this.text[i][j].get()&15;
 
-				this.text[i][j].set(Sbox.getInvSbox(row,col));
+				this.text[i][j].set(Sbox1.getInvSbox(row,col));
 			}
 	}
 
@@ -216,5 +216,5 @@ public class AES{
 	// Key
 	private Keys key;
 
-    private Sbox1 Sbox;
+    private Sbox1 Sbox1;
 }
