@@ -36,7 +36,7 @@ public class Server1 {
 		RSA rsa = new RSA();
 		rsa.createRSA();
 		int port = 8002;
-		Server server = new Server(port);
+		Server1 server = new Server1(port);
 		server.start();
 	}
 	
@@ -132,7 +132,7 @@ public class Server1 {
 	            keyDecipher.init(Cipher.DECRYPT_MODE, privKey );
 	            key = new SecretKeySpec (keyDecipher.doFinal(encryptedKey), "AES");
 	            System.out.println();
-	            System.out.println(" AES key after decryption: " +key.getEncoded());
+	            System.out.println(" AES key after decryption: " + key);
 	            i = 1;
 	            AESKey =  key;
 	        }

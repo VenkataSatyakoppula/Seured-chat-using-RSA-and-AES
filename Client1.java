@@ -35,7 +35,7 @@ public class Client1 {
 	
 		int portNumber = 8002;
         serverAddress = "localhost";
-		Client client = new Client(serverAddress, portNumber);
+		Client1 client = new Client1(serverAddress, portNumber);
 		client.generateAESkey();
 		client.start();
 	}
@@ -105,7 +105,7 @@ public class Client1 {
 	KeyGenerator Gen = KeyGenerator.getInstance("AES");
 	Gen.init(128);
 	AESkey = Gen.generateKey();
-	System.out.println("Genereated the AES key : " + AESkey);
+	System.out.println("Genereated the AES key : " + AESkey.toString());
 	}
 	
 	private byte[] encryptAESKey (){
@@ -113,6 +113,7 @@ public class Client1 {
     	byte[] key = null;
   	  try
   	  { 
+		 pK = readPublicKeyFromFile("public.key");	
 		System.out.println("Encrypting the AES key using RSA Public Key:\n" + pK);
    	     cipher1 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
    	     cipher1.init(Cipher.ENCRYPT_MODE, pK );
@@ -165,9 +166,24 @@ public class Client1 {
 		}catch (IOException ioe){
 			}
 		}
-	
+	PublicKey readPublicKeyFromFile(String fileName) throws IOException {
+		FileInputStream in = new FileInputStream(fileName);
+		ObjectInputStream oin =  new ObjectInputStream(new BufferedInputStream(in));
+			 try {
+			   BigInteger m = (BigInteger) oin.readObject();
+			   BigInteger e = (BigInteger) oin.readObject();
+			   RSAPublicKeySpec keySpecifications = new RSAPublicKeySpec(m, e); 
+			   KeyFactory kF = KeyFactory.getInstance("RSA");
+			   PublicKey pubK = kF.generatePublic(keySpecifications);
+			   return pubK;
+			 } catch (Exception e) {
+				   throw new RuntimeException("Some error in reading public key", e);
+			 } finally {
+			   oin.close();
+			 }
+		   }
 		}
-
+  
 
 
 

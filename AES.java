@@ -1,10 +1,3 @@
-/**
-* AES class provides functions for encrytion and decryption of 64 bit hexademical input.
-*
-* @author  Manu Chandel
-* @version 1.0
-* @since   2016-09-16 
-*/
 
 public class AES{
 
