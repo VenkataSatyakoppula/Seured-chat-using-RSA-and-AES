@@ -103,7 +103,6 @@ public class Sbox1{
             box[i*0x10 + b]=temp;
         }
     }   */
-    
     private void dyn(String key){
     int cust=0x00;
     int shiftcount=0;
@@ -118,8 +117,7 @@ public class Sbox1{
     shiftrow(arr[0],shiftcount);
     shiftcol(arr[1],shiftcount);
     //swap(arr[0],arr[1]);
-    }
-    
+    }    
     for(int i=0;i<16;i++){
 			for(int j=0;j<16;j++){
 
@@ -133,9 +131,7 @@ public class Sbox1{
 	public static int getSbox(int i,int j){
         return box[i * 0x10 + j];
 	}
-
 	public static int getInvSbox(int i,int j){
         return invBox[i*0x10 +j];
 	}
-
 }

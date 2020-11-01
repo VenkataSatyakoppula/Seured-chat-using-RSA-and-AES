@@ -6,10 +6,7 @@ import java.security.spec.RSAPublicKeySpec;
 import java.util.Scanner;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
 public class Client1 {
-
 	private ObjectOutputStream sOutput;
 	private ObjectInputStream sInput;
 	private Socket socket;
@@ -23,35 +20,30 @@ public class Client1 {
     PublicKey pK ;
 	message toSend;
 	static String IV = "AAAAAAAAAAAAAAAA";
-	
 	Client1 (String server, int port){ 						
 	this.server = server;
 	this.port = port;
 	}
-
 	public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
-		
+		System.out.println("***************************************************************");
+		System.out.println("*********************SECURED-CHAT-CLIENT***********************");
+		System.out.println("***************************************************************");
+		System.out.println("Client has started!!!!!!!");
 		String serverAddress;
-	
 		int portNumber = 8002;
         serverAddress = "localhost";
 		Client1 client = new Client1(serverAddress, portNumber);
 		client.generateAESkey();
 		client.start();
 	}
-	
 	void start() throws IOException{
 		socket = new Socket(server, port);
-		System.out.println("connection accepted " + socket.getInetAddress() + " :"  + socket.getPort());
-		
-		
+		System.out.println("connection accepted " + socket.getInetAddress() + " :"  + socket.getPort());	
 		sInput = new ObjectInputStream(socket.getInputStream());
 		sOutput = new ObjectOutputStream(socket.getOutputStream());
-		
 		new sendToServer().start();
 		new listenFromServer().start();
 	}
-
 	class listenFromServer extends Thread {
 		public void run(){
 			while(true){
@@ -69,7 +61,6 @@ public class Client1 {
       	}
 	}
 	}
-
 	class sendToServer extends Thread {
         public void run(){
         	while(true){
@@ -81,17 +72,14 @@ public class Client1 {
     	toSend = new message(encryptAESKey());
 		sOutput.writeObject(toSend);
         	i =1;
-        	}					
-        
+        	}					   
         else{
-        	
         	System.out.println("Client: Enter message > ");
 			Scanner sc = new Scanner(System.in);
 			String s = sc.nextLine();
 			toSend = new message(encryptMessage(s));
 			sOutput.writeObject(toSend);
         	}
-        	
         } catch (Exception e){
               e.printStackTrace();
                 break;
@@ -99,7 +87,6 @@ public class Client1 {
         	}
         }
 	}
-	
 	void generateAESkey() throws NoSuchAlgorithmException{
 	AESkey = null;
 	KeyGenerator Gen = KeyGenerator.getInstance("AES");
@@ -107,27 +94,24 @@ public class Client1 {
 	AESkey = Gen.generateKey();
 	System.out.println("Genereated the AES key : " + AESkey.toString());
 	}
-	
 	private byte[] encryptAESKey (){
 		cipher1 = null;
     	byte[] key = null;
   	  try
   	  { 
 		 pK = readPublicKeyFromFile("public.key");	
-		System.out.println("Encrypting the AES key using RSA Public Key:\n" + pK);
+	     System.out.println("Encrypting the AES key using RSA Public Key:\n" + pK);
    	     cipher1 = Cipher.getInstance("RSA/ECB/PKCS1Padding");
    	     cipher1.init(Cipher.ENCRYPT_MODE, pK );
    	     key = cipher1.doFinal(AESkey.getEncoded());  
    	     i = 1;
    	 	}
-  	  
    	 catch(Exception e ) {
     	    System.out.println ( "" + e.getMessage() );
     	    e.printStackTrace();
    	 		}
   	  return key;
   	  } 
-
 		private byte[] encryptMessage(String s) throws NoSuchAlgorithmException, NoSuchPaddingException, 
 							InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, 
 											BadPaddingException{
@@ -147,8 +131,7 @@ public class Client1 {
 	             byte[] msg = cipher2.doFinal(encryptedMessage);		            
 	             System.out.println("Message From Server   >> " + new String(msg));
 	             System.out.println("Client: Enter message > ");
-	        }
-	        
+	        }    
 	        catch(Exception e)
 	         {
 	        	e.getCause();
@@ -156,8 +139,6 @@ public class Client1 {
 	        	System.out.println ( ""  + e.getMessage() );
 	            }
 	    }
-	
-
 	public void closeSocket() {
 		try{
 	if(sInput !=null) sInput.close();

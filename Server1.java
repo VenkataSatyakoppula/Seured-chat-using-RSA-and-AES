@@ -6,7 +6,6 @@ import java.io.*;
 import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Base64;
 import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -33,6 +32,10 @@ public class Server1 {
 	
 	
 	public static void main(String[] args) throws IOException, GeneralSecurityException{
+		System.out.println("***************************************************************");
+		System.out.println("*********************SECURED-CHAT-CLIENT***********************");
+		System.out.println("***************************************************************");
+	    System.out.println("Server has started !!!!");
 		RSA rsa = new RSA();
 		rsa.createRSA();
 		int port = 8002;
